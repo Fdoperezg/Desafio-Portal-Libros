@@ -1,0 +1,32 @@
+<h1>Reservas</h1>
+
+<% if @orders.length < 1 %>
+    <h3>No hay Reservas</h3>
+<% else %>
+    <table>
+        <thead>
+            <th>Nombre</th>
+            <th>Autor</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+        </thead>
+        <tbody>
+            <% total = 0%>
+            <% @orders.each do |order|%>
+                <% total += (order.book.price * order.quantity)%>
+                <tr>
+                    <td><%= order.book.title %> </td>
+                    <td><%= order.book.author%></td>
+                    <td><%= number_to_currency(order.book.price, unit: "CLP$")%> </td>
+                    <td>|  <%= order.quantity %> |</td>
+                    <td><%= number_to_currency((order.book.price*order.quantity), unit: 'CLP$') %> </td>
+                    <td><%= link_to 'Quitar', destroy_order_path(order.id), method: :delete%> </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <p>Total: <%= number_to_currency(total, unit: "CLP$")%> </p> 
+    <p><%= link_to 'Eliminar reservas', clean_orders_path, method: :delete %> </p>
+    <p><%= link_to 'Pagar', pre_pay_billings_path %> </p>
+<%end%>

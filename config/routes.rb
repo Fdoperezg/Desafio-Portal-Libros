@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'books#index'
-  resources :libros, only: :index do
+  resources :books, only: :index do
     resources :orders, only: :create
   end
   resources :orders, only: :index
-  resources :libros
+  resources :books
   delete 'order/:id', to: 'orders#destroy', as: 'destroy_order'
   delete 'orders/clean', to: 'orders#clean', as: 'clean_orders'
 
